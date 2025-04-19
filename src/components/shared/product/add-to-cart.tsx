@@ -10,7 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import useCartStore from "@/hooks/use-cart-store";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "@/hooks/use-toast";
 
 import { OrderItem } from "@/types";
 import { useRouter } from "next/navigation";
@@ -24,7 +24,6 @@ export default function AddToCart({
   minimal?: boolean;
 }) {
   const router = useRouter();
-  const { toast } = useToast();
 
   const { addItem } = useCartStore();
 

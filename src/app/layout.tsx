@@ -1,3 +1,4 @@
+import ClientProviders from "@/components/shared/client-providers";
 import { Toaster } from "@/components/ui/sonner";
 import { APP_DESCRIPTION, APP_NAME, APP_SLOGAN } from "@/lib/constants";
 import type { Metadata } from "next";
@@ -33,7 +34,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Toaster />
-        {children}
+        <ClientProviders>{children}</ClientProviders>
       </body>
     </html>
   );
