@@ -4,7 +4,25 @@ import useColorStore from "@/hooks/use-color-store";
 import { useTheme } from "next-themes";
 import { Cell, Pie, PieChart, ResponsiveContainer } from "recharts";
 
-export default function SalesCategoryPieChart({ data }: { data: any[] }) {
+interface CustomLabelProps {
+  cx: number;
+  cy: number;
+  midAngle: number;
+  innerRadius: number;
+  outerRadius: number;
+  index: number;
+}
+
+interface CategoryData {
+  name: string;
+  value: number;
+}
+
+export default function SalesCategoryPieChart({
+  data,
+}: {
+  data: CategoryData[];
+}) {
   const { theme } = useTheme();
   const { cssColors } = useColorStore(theme);
 
@@ -16,7 +34,7 @@ export default function SalesCategoryPieChart({ data }: { data: any[] }) {
     innerRadius,
     outerRadius,
     index,
-  }: any) => {
+  }: CustomLabelProps) => {
     const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
     const x = cx + radius * Math.cos(-midAngle * RADIAN);
     const y = cy + radius * Math.sin(-midAngle * RADIAN);
@@ -30,7 +48,7 @@ export default function SalesCategoryPieChart({ data }: { data: any[] }) {
           dominantBaseline="central"
           className="text-xs"
         >
-          {`${data[index]._id} ${data[index].totalSales} sales`}
+          {`${data[index].name} ${data[index].value} sales`}
         </text>
       </>
     );
@@ -41,7 +59,7 @@ export default function SalesCategoryPieChart({ data }: { data: any[] }) {
       <PieChart width={400} height={400}>
         <Pie
           data={data}
-          dataKey="totalSales"
+          dataKey="value"
           cx="50%"
           cy="50%"
           labelLine={false}

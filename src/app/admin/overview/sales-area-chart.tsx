@@ -14,6 +14,7 @@ import {
   Tooltip,
   TooltipProps,
   XAxis,
+  XAxisProps,
   YAxis,
 } from "recharts";
 
@@ -43,21 +44,35 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({
   return null;
 };
 
-const CustomXAxisTick: React.FC<any> = ({ x, y, payload }) => {
+interface CustomXAxisTickProps extends XAxisProps {
+  x?: number;
+  y?: number;
+  payload?: {
+    value: string;
+  };
+}
+
+const CustomXAxisTick: React.FC<CustomXAxisTickProps> = ({ x, y, payload }) => {
+  if (!x || !y || !payload) return null;
   return (
     <text x={x} y={y + 10} textAnchor="left" fill="#666" className="text-xs">
       {formatDateTime(new Date(payload.value)).dateOnly}
-      {/* {`${payload.value.split('/')[1]}/${payload.value.split('/')[2]}`} */}
     </text>
   );
 };
+
 const STROKE_COLORS: { [key: string]: { [key: string]: string } } = {
   Red: { light: "#980404", dark: "#ff3333" },
   Green: { light: "#015001", dark: "#06dc06" },
   Gold: { light: "#ac9103", dark: "#f1d541" },
 };
 
-export default function SalesAreaChart({ data }: { data: any[] }) {
+interface SalesData {
+  date: string;
+  sales: number;
+}
+
+export default function SalesAreaChart({ data }: { data: SalesData[] }) {
   const { theme } = useTheme();
   const { cssColors, color } = useColorStore(theme);
 
@@ -70,7 +85,7 @@ export default function SalesAreaChart({ data }: { data: any[] }) {
         <Tooltip content={<CustomTooltip />} />
         <Area
           type="monotone"
-          dataKey="totalSales"
+          dataKey="sales"
           stroke={STROKE_COLORS[color.name][theme || "light"]}
           strokeWidth={2}
           fill={`hsl(${cssColors["--primary"]})`}
