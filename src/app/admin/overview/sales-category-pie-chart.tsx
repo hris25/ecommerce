@@ -1,7 +1,5 @@
 "use client";
 
-import useColorStore from "@/hooks/use-color-store";
-import { useTheme } from "next-themes";
 import { Cell, Pie, PieChart, ResponsiveContainer } from "recharts";
 
 interface CustomLabelProps {
@@ -18,14 +16,20 @@ interface CategoryData {
   value: number;
 }
 
+const COLORS = [
+  "#3b82f6", // blue-500
+  "#10b981", // emerald-500
+  "#f59e0b", // amber-500
+  "#ef4444", // red-500
+  "#8b5cf6", // violet-500
+  "#ec4899", // pink-500
+];
+
 export default function SalesCategoryPieChart({
   data,
 }: {
   data: CategoryData[];
 }) {
-  const { theme } = useTheme();
-  const { cssColors } = useColorStore(theme);
-
   const RADIAN = Math.PI / 180;
   const renderCustomizedLabel = ({
     cx,
@@ -66,10 +70,7 @@ export default function SalesCategoryPieChart({
           label={renderCustomizedLabel}
         >
           {data.map((entry, index) => (
-            <Cell
-              key={`cell-${index}`}
-              fill={`hsl(${cssColors["--primary"]})`}
-            />
+            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
           ))}
         </Pie>
       </PieChart>

@@ -2,9 +2,7 @@
 
 import ProductPrice from "@/components/shared/product/product-price";
 import { Card, CardContent } from "@/components/ui/card";
-import useColorStore from "@/hooks/use-color-store";
 import { formatDateTime } from "@/lib/utils";
-import { useTheme } from "next-themes";
 import React from "react";
 import {
   Area,
@@ -61,21 +59,12 @@ const CustomXAxisTick: React.FC<CustomXAxisTickProps> = ({ x, y, payload }) => {
   );
 };
 
-const STROKE_COLORS: { [key: string]: { [key: string]: string } } = {
-  Red: { light: "#980404", dark: "#ff3333" },
-  Green: { light: "#015001", dark: "#06dc06" },
-  Gold: { light: "#ac9103", dark: "#f1d541" },
-};
-
 interface SalesData {
   date: string;
   sales: number;
 }
 
 export default function SalesAreaChart({ data }: { data: SalesData[] }) {
-  const { theme } = useTheme();
-  const { cssColors, color } = useColorStore(theme);
-
   return (
     <ResponsiveContainer width="100%" height={400}>
       <AreaChart data={data}>
@@ -86,9 +75,9 @@ export default function SalesAreaChart({ data }: { data: SalesData[] }) {
         <Area
           type="monotone"
           dataKey="sales"
-          stroke={STROKE_COLORS[color.name][theme || "light"]}
+          stroke="#2563eb"
           strokeWidth={2}
-          fill={`hsl(${cssColors["--primary"]})`}
+          fill="#3b82f6"
           fillOpacity={0.8}
         />
       </AreaChart>
